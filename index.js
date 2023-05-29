@@ -15,7 +15,7 @@ const connect = async ()=>
 {
     try {
         console.log("connected to database");
-        await mongoose.connect('mongodb+srv://Omar:f3aNbhlqsrhkh3tD@bookingapp.xttmsrx.mongodb.net/');
+        await mongoose.connect(process.env.mongo);
       } catch (error) {
         console.log(error);
       }
