@@ -1,5 +1,5 @@
-import express from "express";
-const app = express()
+import  express from "express";
+const app = express();
 import mongoose from "mongoose";
 import Hotels from "./Routes/Hotel.js"
 import Users from "./Routes/Users.js";
@@ -15,7 +15,7 @@ const connect = async ()=>
 {
     try {
         console.log("connected to database");
-        await mongoose.connect(process.env.mongo);
+        await mongoose.connect(process.env.MONGO);
       } catch (error) {
         console.log(error);
       }

@@ -36,6 +36,7 @@ export const verifyUser = (req, res, next) => {
 
         next();
       } else {  
+        
       return next(createError(401,"you are not authorized!"));    
       }
     });
