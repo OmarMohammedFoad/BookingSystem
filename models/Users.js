@@ -34,6 +34,10 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    code: {
+      type: String,
+      default: false,
+    },
   },
   { timestamps: true }
 );
