@@ -1,13 +1,14 @@
 import Users from "../models/Users.js";
 import Rooms from "../models/Rooms.js";
-import CheckoutCheckIn from "../models/CheckoutCheckIn.js";
+import CheckoutCheckIn from "../models/Booking.js";
+import { createError } from "../utils/Errors.js";
 
-export const checkout = async (req, res, next) => {
+export const checkin = async (req, res, next) => {
   try {
     console.log(req.user);
     const user = await Users.findById(req.user.id);
     const room = await Rooms.findById(req.params.id);
-
+    if (room.availablility == false) return next(createError("403", "the room is not available"));
     room.availablility = false;
     req.body.user = user._id;
     req.body.room = room._id;
@@ -22,4 +23,12 @@ export const checkout = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+export const getAllReserveration = async (req, res) => {
+  const reserverations = await CheckoutCheckIn.find().populate({
+    path: "user room",
+    select: "title desc availablility username country city phone ",
+  });
+  res.status(200).json({ record: reserverations });
 };

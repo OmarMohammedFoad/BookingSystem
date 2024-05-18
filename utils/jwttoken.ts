@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import { createError } from "../utils/Errors.js";
+import { createError } from "./Errors.js";
+import { NextFunction,  } from "express";
 
-const verifyToken = (req, res, next) => {
-  console.log(req.cookies.access_token);
+const verifyToken = (req:any, res:any, next:NextFunction,callback:Function) => {
   if (!req.cookies.access_token) return next(createError(401, "You are not authenticated!"));
   jwt.verify(req.cookies.access_token, process.env.JWT, (err, user) => {
     if (err) return next(createError("403", "token is wrong"));
@@ -11,17 +11,18 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-export const verifyUser = (req, res, next) => {
-  verifyToken(req, res, next, () => {
-    if (req.user.id === req.params.id || req.user.isAdmin) {
+export const verifyUser = (req:any, res:any, next:NextFunction) => {
+  verifyToken(req, res, next,()=>{
+    console.log(req.user);
+    if (req.user.id !== undefined) {
       next();
     } else {
-      return next(createError(401, "you are not authorized!"));
+      return next(createError(403, "You are not authorized!"));
     }
-  });
+  }) 
 };
 
-export const verifyAdmin = (req, res, next) => {
+export const verifyAdmin = (req:any, res:any, next:any) => {
   verifyToken(req, res, () => {
     console.log(req.user);
     if (req.user.isAdmin !== undefined) {
@@ -29,5 +30,5 @@ export const verifyAdmin = (req, res, next) => {
     } else {
       return next(createError(403, "You are not authorized!"));
     }
-  });
+  },next);
 };
