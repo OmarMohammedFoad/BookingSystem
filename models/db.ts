@@ -11,7 +11,7 @@
 // export default pool;
 
 import { Sequelize } from "sequelize";
-const connect = new Sequelize("test_db","admin","omar123",{
+const connect = new Sequelize("postgres","admin","omar123",{
     host:"localhost",
     dialect:"postgres",
     // port:5432

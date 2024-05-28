@@ -4,7 +4,7 @@ import { NextFunction,  } from "express";
 
 const verifyToken = (req:any, res:any, next:NextFunction,callback:Function) => {
   if (!req.cookies.access_token) return next(createError(401, "You are not authenticated!"));
-  jwt.verify(req.cookies.access_token, process.env.JWT, (err, user) => {
+  jwt.verify(req.cookies.access_token, `${process.env.JWT}`, (err:any, user:any) => {
     if (err) return next(createError("403", "token is wrong"));
     req.user = user;
     next();
